@@ -1,0 +1,18 @@
+image: php:7.3
+pipelines:
+  default:
+    - step:
+        caches:
+          - composer
+        script:
+          - pecl install xdebug && docker-php-ext-enable xdebug
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - composer install
+          - composer validate
+          - ./vendor/bin/phpcs --standard=build/phpcs.xml --extensions=php src tests
+          - ./vendor/bin/phpstan analyse -l 7 -c build/phpstan.neon src tests
+          - ./vendor/bin/phpunit --configuration build/phpunit.xml
+          - php ./build/coverage.php 90
+        artifacts:
+          - build/test-results/**
+          - build/coverage/**

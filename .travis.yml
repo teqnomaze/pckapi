@@ -1,0 +1,57 @@
+sudo: false
+dist: trusty
+
+language: php
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+
+branches:
+  only:
+    - master
+    - develop
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.3
+
+before_script:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "xdebug.ini does not exist"
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      composer update
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpstan" ]] ; then
+      composer update
+    fi
+
+script:
+  - |
+    if [[ "$WP_TRAVISCI" == "phpunit" ]] ; then
+      ./vendor/bin/phpunit --configuration build/phpunit.xml
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      ./vendor/bin/phpcs --standard=build/phpcs.xml
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "phpstan" ]] ; then
+      ./vendor/bin/phpstan analyse -c build/phpstan.neon
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "coverage" ]] ; then
+      php ./build/coverage.php 90
+    fi
