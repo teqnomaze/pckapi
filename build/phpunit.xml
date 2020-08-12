@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" stopOnFailure="false" bootstrap="../vendor/autoload.php">
+    <logging>
+        <log type="junit" target="./test-results/phpunit.xml"/>
+        <log type="coverage-html" target="./coverage"/>
+        <log type="coverage-clover" target="./test-results/clover.xml"/>
+        <log type="coverage-crap4j" target="./test-results/crap4j.xml"/>
+    </logging>
+    <testsuites>
+        <testsuite name="app">
+            <directory suffix=".php">../tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

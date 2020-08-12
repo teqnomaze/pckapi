@@ -1,0 +1,46 @@
+{
+    "name": "teqnomaze/pckapi",
+    "description": "A class library for consuming PCKasse API",
+    "type": "library",
+    "license": "GPL-3.0 License",
+    "authors": [
+        {
+            "name": "Musthafa SM",
+            "email": "musthafasm@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/teqnomaze/pckapi/issues",
+        "source": "https://github.com/teqnomaze/pckapi"
+    },
+    "scripts": {
+        "phpcs": "./vendor/bin/phpcs --standard=build/phpcs.xml --extensions=php src tests",
+        "phpstan": "./vendor/bin/phpstan analyse -l 7 -c build/phpstan.neon src tests",
+        "phpunit": "./vendor/bin/phpunit --configuration build/phpunit.xml",
+        "coverage": "php ./build/coverage.php 90"
+    },
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "ext-simplexml": "*",
+        "phpunit/phpunit": "^8.5",
+        "phpstan/phpstan": "^0.12.3",
+        "mockery/mockery": "^1.3",
+        "squizlabs/php_codesniffer": "^3.5",
+        "league/climate": "^3.5",
+        "ramsey/uuid": "^3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Teqnomaze\\Pckapi\\": "src",
+            "Teqnomaze\\Pckapi\\V1\\": "src/Version1"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Teqnomaze\\Pckapi\\": "tests",
+            "Tests\\Teqnomaze\\Pckapi\\V1\\": "tests/Version1"
+        }
+    }
+}
